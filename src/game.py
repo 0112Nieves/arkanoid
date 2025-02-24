@@ -2,6 +2,7 @@ import random
 from os import path
 
 import pygame
+import random
 
 from mlgame.game.paia_game import GameStatus, GameResultState, PaiaGame
 from mlgame.view.decorator import check_game_progress, check_game_result
@@ -226,12 +227,16 @@ class Arkanoid(PaiaGame):
         self._create_moves()
 
         self._create_bricks()
-
+        
+    # TODO revise init pos
     def _create_moves(self):
         self._group_move = pygame.sprite.RenderPlain()
-        # TODO revise init pos
+        platform_x = random.randint(BG_LEFT_WIDTH, BG_LEFT_WIDTH + 200 - 40)
+        platform_y = 400
+        self._platform = Platform((platform_x, platform_y), pygame.Rect(BG_LEFT_WIDTH, 0, 200, 500), self._group_move)
+        ball_x = platform_x + (40 - 5) // 2
+        ball_y = 400 - 5    
         self._ball = Ball((BG_LEFT_WIDTH+93, 391), pygame.Rect(BG_LEFT_WIDTH, 0, 200, 500), self._group_move)
-        self._platform = Platform((BG_LEFT_WIDTH+75, 400), pygame.Rect(BG_LEFT_WIDTH, 0, 200, 500), self._group_move)
 
     def _create_bricks(self):
         def get_coordinate_and_type(string):
